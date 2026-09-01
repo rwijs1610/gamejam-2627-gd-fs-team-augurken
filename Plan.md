@@ -110,6 +110,7 @@ void loop() {
 ```
 
 
-# Sources: 
+# (Useful) Sources: 
 https://www.instructables.com/Plug-and-Play-Arcade-Buttons/
+https://learn.adafruit.com/adafruit-led-arcade-button-qt/arduino
 
