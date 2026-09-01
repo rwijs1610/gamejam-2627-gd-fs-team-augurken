@@ -2,12 +2,12 @@
 
 
 
-Nickdev8 = Nick Esselman 
-BramG08 = Bram Grippeling   
-GoldyMAsterdam = Tycho Boom
-Jesper826 = Jesper Niekerk
-JosHub112 = Joshua Visser
-MoKharbo = Mo Kharboutli
-zmbfiedk = Arthur Henriques Garcia
-OscarvdLubbe = Oscar van der Lubbe 
-niklasikos = Niklas Nikolaidis 
+Nickdev8 = Nick Esselman </br>
+BramG08 = Bram Grippeling  </br> 
+GoldyMAsterdam = Tycho Boom </br>
+Jesper826 = Jesper Niekerk </br>
+JosHub112 = Joshua Visser </br>
+MoKharbo = Mo Kharboutli </br>
+zmbfiedk = Arthur Henriques Garcia </br>
+OscarvdLubbe = Oscar van der Lubbe  </br>
+niklasikos = Niklas Nikolaidis  </br>
