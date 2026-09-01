@@ -113,3 +113,5 @@ void loop() {
 # Sources: 
 https://www.instructables.com/Plug-and-Play-Arcade-Buttons/
 
+# Controller concept:
+![photo controller concept](controller-galaxy.png)
