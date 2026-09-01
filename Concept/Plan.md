@@ -114,3 +114,8 @@ void loop() {
 https://www.instructables.com/Plug-and-Play-Arcade-Buttons/
 https://learn.adafruit.com/adafruit-led-arcade-button-qt/arduino
 
+# Controller concept:
+![photo controller concept](controller-galaxy.png)
+
+# game concept:
+![game concept photo](game-consept-galaxy.png)
