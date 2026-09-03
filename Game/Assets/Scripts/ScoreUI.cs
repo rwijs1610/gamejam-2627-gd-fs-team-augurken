@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class ScoreUI : MonoBehaviour
 {
@@ -12,7 +12,10 @@ public class ScoreUI : MonoBehaviour
     private HitGameplay hitGameplay;
 
     [SerializeField]
-    private Text scoreText;
+    private TMP_Text scoreText;
+
+    [SerializeField]
+    private TMP_Text multiplierText;
 
     [Header("Score Values")]
     [SerializeField]
@@ -27,7 +30,16 @@ public class ScoreUI : MonoBehaviour
     [SerializeField]
     private int missScore = 0;
 
+    [Header("Streak Multiplier")]
+    [SerializeField]
+    private int hitsPerMultiplier = 10;
+
+    [SerializeField]
+    private int maxMultiplier = 5;
+
     private int score = 0;
+    private int streak = 0;
+    private int multiplier = 1;
 
     private void Awake()
     {
@@ -49,45 +61,105 @@ public class ScoreUI : MonoBehaviour
             );
         }
 
+        if (hitsPerMultiplier <= 0)
+        {
+            hitsPerMultiplier = 10;
+        }
+
+        if (maxMultiplier < 1)
+        {
+            maxMultiplier = 1;
+        }
+
         UpdateScoreUI();
     }
 
     private void OnEnable()
     {
-        if (hitGameplay != null)
-        {
-            hitGameplay.HitDetected += OnHitDetected;
-        }
+        if (hitGameplay == null)
+            return;
+
+        hitGameplay.HitDetected += OnHitDetected;
+        hitGameplay.MissDetected += OnMissDetected;
     }
 
     private void OnDisable()
     {
-        if (hitGameplay != null)
-        {
-            hitGameplay.HitDetected -= OnHitDetected;
-        }
+        if (hitGameplay == null)
+            return;
+
+        hitGameplay.HitDetected -= OnHitDetected;
+        hitGameplay.MissDetected -= OnMissDetected;
     }
 
     private void OnHitDetected(HitResult result)
     {
-        // Ignore the other player's hits
         if (result.PlayerId != playerId)
             return;
 
-        int points = GetScoreForJudgement(
-            result.Judgement
-        );
+        streak++;
 
-        score += points;
+        UpdateMultiplier();
+
+        int baseScore =
+            GetScoreForJudgement(
+                result.Judgement
+            );
+
+        int finalScore =
+            baseScore * multiplier;
+
+        score += finalScore;
 
         UpdateScoreUI();
 
         Debug.Log(
             $"[ScoreUI] Player {playerId} | " +
-            $"Judgement={result.Judgement} | " +
-            $"Points=+{points} | " +
-            $"Score={score}"
+            $"Streak={streak} | " +
+            $"Multiplier=x{multiplier} | " +
+            $"BaseScore={baseScore} | " +
+            $"Added={finalScore} | " +
+            $"Total={score}"
         );
+    }
+
+    private void OnMissDetected(
+        int missedPlayerId,
+        int laneId)
+    {
+        if (missedPlayerId != playerId)
+            return;
+
+        streak = 0;
+        multiplier = 1;
+
+        score += missScore;
+
+        UpdateScoreUI();
+
+        Debug.Log(
+            $"[ScoreUI] Player {playerId} MISS | " +
+            $"Lane={laneId} | " +
+            $"Streak reset | " +
+            $"Multiplier=x1"
+        );
+    }
+
+    private void UpdateMultiplier()
+    {
+        multiplier =
+            1 +
+            (
+                streak /
+                hitsPerMultiplier
+            );
+
+        multiplier =
+            Mathf.Clamp(
+                multiplier,
+                1,
+                maxMultiplier
+            );
     }
 
     private int GetScoreForJudgement(
@@ -111,11 +183,17 @@ public class ScoreUI : MonoBehaviour
 
     private void UpdateScoreUI()
     {
-        if (scoreText == null)
-            return;
+        if (scoreText != null)
+        {
+            scoreText.text =
+                $"SCORE: {score}";
+        }
 
-        scoreText.text =
-            $"SCORE: {score}";
+        if (multiplierText != null)
+        {
+            multiplierText.text =
+                $"x{multiplier}";
+        }
     }
 
     public int GetScore()
@@ -123,9 +201,22 @@ public class ScoreUI : MonoBehaviour
         return score;
     }
 
+    public int GetStreak()
+    {
+        return streak;
+    }
+
+    public int GetMultiplier()
+    {
+        return multiplier;
+    }
+
     public void ResetScore()
     {
         score = 0;
+        streak = 0;
+        multiplier = 1;
+
         UpdateScoreUI();
     }
 }

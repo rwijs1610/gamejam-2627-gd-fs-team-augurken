@@ -37,7 +37,7 @@ public sealed class HitGameplay : MonoBehaviour
     private StreakSystem _streak;
 
     public event Action<HitResult> HitDetected;
-
+    public event Action<int, int> MissDetected;
     private void Awake()
     {
         HitJudge judge = new HitJudge(
@@ -147,16 +147,19 @@ public sealed class HitGameplay : MonoBehaviour
         }
 
         bool success = _detector.TryHit(
-            playerHitbox,
-            playerId,
-            laneId,
-            out HitResult result
-        );
+     playerHitbox,
+     playerId,
+     laneId,
+     out HitResult result
+ );
 
         if (!success)
         {
-            _streak.RegisterMiss(
-                playerId
+            _streak.RegisterMiss(playerId);
+
+            MissDetected?.Invoke(
+                playerId,
+                laneId
             );
 
             return false;

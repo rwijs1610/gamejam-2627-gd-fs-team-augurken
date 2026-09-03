@@ -7,12 +7,16 @@ public class ScoreImage : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private HitGameplay hitGameplay;
-    [SerializeField] private GameObject[] scoreSprites;
+
+    [Header("Score Sprites")]
+    [SerializeField] private GameObject[] perfectSprites;
+    [SerializeField] private GameObject[] greatSprites;
+    [SerializeField] private GameObject[] goodSprites;
+    [SerializeField] private GameObject[] missSprites;
 
     [Header("Lane X Positions")]
     [SerializeField]
-    private float[] laneXPositions =
-        new float[4];
+    private float[] laneXPositions = new float[4];
 
     [Header("Y Positions")]
     [SerializeField] private float startY = 5f;
@@ -50,61 +54,82 @@ public class ScoreImage : MonoBehaviour
         }
 
         hitGameplay.HitDetected += OnHitDetected;
+        hitGameplay.MissDetected += OnMissDetected;
     }
 
     private void OnDisable()
     {
-        if (hitGameplay != null)
-        {
-            hitGameplay.HitDetected -= OnHitDetected;
-        }
+        if (hitGameplay == null)
+            return;
+
+        hitGameplay.HitDetected -= OnHitDetected;
+        hitGameplay.MissDetected -= OnMissDetected;
     }
 
     private void OnHitDetected(HitResult result)
     {
-        // Ignore other player's hits
         if (result.PlayerId != playerId)
             return;
 
-        int lane = result.LaneId;
+        SpawnScoreImage(
+            result.LaneId,
+            result.AccuracyPercent
+        );
+    }
 
-        if (lane < 0 || lane >= 4)
-        {
-            Debug.LogError(
-                $"[ScoreImage] Invalid lane {lane}.",
-                this
-            );
-
+    private void OnMissDetected(
+        int missedPlayerId,
+        int laneId)
+    {
+        if (missedPlayerId != playerId)
             return;
-        }
 
-        if (laneXPositions == null ||
-            laneXPositions.Length < 4)
-        {
-            Debug.LogError(
-                "[ScoreImage] Need 4 lane X positions.",
-                this
-            );
+        SpawnMissImage(laneId);
+    }
 
+    private void SpawnScoreImage(
+        int lane,
+        float accuracy)
+    {
+        if (!IsValidLane(lane))
             return;
-        }
 
         GameObject prefab =
-            GetScoreSprite(result.AccuracyPercent);
+            GetScoreSprite(accuracy);
 
         if (prefab == null)
-        {
-            Debug.LogWarning(
-                "[ScoreImage] No score sprite found."
-            );
-
             return;
-        }
 
-        // Lane determines X
-        float x = laneXPositions[lane];
+        SpawnImage(
+            prefab,
+            lane
+        );
+    }
 
-        // Y is shared between all lanes
+    private void SpawnMissImage(int lane)
+    {
+        if (!IsValidLane(lane))
+            return;
+
+        GameObject prefab =
+            GetRandomSprite(missSprites);
+
+        if (prefab == null)
+            return;
+
+        SpawnImage(
+            prefab,
+            lane
+        );
+    }
+
+    private void SpawnImage(
+        GameObject prefab,
+        int lane)
+    {
+        float x =
+            laneXPositions[lane];
+
         Vector3 startPosition =
             new Vector3(
                 x,
@@ -147,34 +172,73 @@ public class ScoreImage : MonoBehaviour
         );
     }
 
-    private GameObject GetScoreSprite(float accuracy)
+    private GameObject GetScoreSprite(
+        float accuracy)
     {
-        if (scoreSprites == null ||
-            scoreSprites.Length == 0)
-        {
-            return null;
-        }
-
         if (accuracy >= perfectThreshold)
         {
-            return scoreSprites[0];
+            return GetRandomSprite(
+                perfectSprites
+            );
         }
 
         if (accuracy >= greatThreshold)
         {
-            if (scoreSprites.Length > 1)
-                return scoreSprites[1];
+            return GetRandomSprite(
+                greatSprites
+            );
         }
 
         if (accuracy >= goodThreshold)
         {
-            if (scoreSprites.Length > 2)
-                return scoreSprites[2];
+            return GetRandomSprite(
+                goodSprites
+            );
         }
 
-        if (scoreSprites.Length > 3)
-            return scoreSprites[3];
+        return GetRandomSprite(
+            missSprites
+        );
+    }
 
-        return scoreSprites[scoreSprites.Length - 1];
+    private GameObject GetRandomSprite(
+        GameObject[] sprites)
+    {
+        if (sprites == null ||
+            sprites.Length == 0)
+        {
+            return null;
+        }
+
+        return sprites[
+            Random.Range(
+                0,
+                sprites.Length
+            )
+        ];
+    }
+
+    private bool IsValidLane(int lane)
+    {
+        if (lane < 0 || lane >= 4)
+        {
+            Debug.LogError(
+                $"[ScoreImage] Invalid lane {lane}."
+            );
+
+            return false;
+        }
+
+        if (laneXPositions == null ||
+            laneXPositions.Length < 4)
+        {
+            Debug.LogError(
+                "[ScoreImage] Need 4 lane X positions."
+            );
+
+            return false;
+        }
+
+        return true;
     }
 }
