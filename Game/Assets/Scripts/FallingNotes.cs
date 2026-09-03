@@ -1,11 +1,11 @@
 using UnityEngine;
 using Unity.Mathematics;
 using UnityEditor;
-//using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEditor.Tilemaps;
-public class FallingNotes : MonoBehaviour
+using System.Collections;
 
+public class FallingNotes : MonoBehaviour
 {
     [Header("Player1Left")]
     public GameObject Spawn1Left;
@@ -23,12 +23,18 @@ public class FallingNotes : MonoBehaviour
     public GameObject NormalBurger;
     public GameObject Nothing;
     [SerializeField] GameObject Map;
+
+    [Header("BPM")]
+    public float BPM = 120f;
+
+    [Header("Map Settings")]
+    public bool randomMap = false;
+    [Range(0f, 1f)]
+    public float randomNoteChance = 0.7f;
+
     int x;
     int y;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    // als alle orbs heeft opent passage naar 3d world
     private int[,] mapMaker =
     {
         {0,0,0,0},
@@ -99,51 +105,113 @@ public class FallingNotes : MonoBehaviour
 
     void Start()
     {
-        // .transform.SetParent(Map.transform,false);
-        Vector2 TileSize = NormalBurger.GetComponent<SpriteRenderer>().bounds.size;
-        //Vector2 TileSize = Note.GetComponent<Renderer>().bounds.size;
-        float ox = (mapMaker.GetLength(1) * TileSize.x - 1) / 2;
-        float oy = (mapMaker.GetLength(0) * TileSize.y - 1) / 2;
+        if (randomMap)
+        {
+            GenerateRandomMap();
+        }
+
+        StartCoroutine(SpawnMap());
+    }
+
+    void GenerateRandomMap()
+    {
+        for (int y = 0; y < mapMaker.GetLength(0); y++)
+        {
+            for (int x = 0; x < mapMaker.GetLength(1); x++)
+            {
+                mapMaker[y, x] = 0;
+            }
+
+            if (UnityEngine.Random.value <= randomNoteChance)
+            {
+                int randomLane = UnityEngine.Random.Range(0, 4);
+
+                mapMaker[y, randomLane] = randomLane + 1;
+            }
+        }
+
+        mapMaker[0, 0] = 1;
+
+        mapMaker[0, 1] = 0;
+        mapMaker[0, 2] = 0;
+        mapMaker[0, 3] = 0;
+    }
+
+    IEnumerator SpawnMap()
+    {
+        float beatDelay = 60f / BPM;
 
         for (int y = 0; y < mapMaker.GetLength(0); y++)
         {
             for (int x = 0; x < mapMaker.GetLength(1); x++)
             {
-                float ux = (x * TileSize.x) - ox;
-                float uy = (-y * TileSize.y) + oy + 10f;
-                switch (mapMaker[y, x])
+                int noteType = mapMaker[y, x];
+
+                switch (noteType)
                 {
                     case 0:
-                        GameObject nothing = Instantiate(Nothing, new Vector3(ux, uy), quaternion.identity);
-                        nothing.transform.SetParent(Map.transform);
-                        //nothing.GetComponent<SpriteRenderer>().material.color = Color.white;
                         break;
+
                     case 1:
-                        GameObject MostLeft1normalBurger = Instantiate(NormalBurger, new Vector3(Spawn1Left.transform.position.x, uy), quaternion.identity);
-                        MostLeft1normalBurger.transform.SetParent(Map.transform);
-                        //MostLeft1normalBurger.transform.position = Spawn1Left.transform.position;
+                        SpawnBurger(
+                            Spawn1Left,
+                            Spawn1Right
+                        );
                         break;
+
                     case 2:
-                        GameObject Left2normalBurger = Instantiate(NormalBurger, new Vector3(Spawn2Left.transform.position.x, uy), quaternion.identity);
-                        Left2normalBurger.transform.SetParent(Map.transform);
+                        SpawnBurger(
+                            Spawn2Left,
+                            Spawn2Right
+                        );
                         break;
+
                     case 3:
-                        GameObject Right3normalBurger = Instantiate(NormalBurger, new Vector3(Spawn3Left.transform.position.x, uy), quaternion.identity);
-                        Right3normalBurger.transform.SetParent(Map.transform);
+                        SpawnBurger(
+                            Spawn3Left,
+                            Spawn3Right
+                        );
                         break;
+
                     case 4:
-                        GameObject MostRight4normalBurger = Instantiate(NormalBurger, new Vector3(Spawn4Left.transform.position.x, uy), quaternion.identity);
-                        MostRight4normalBurger.transform.SetParent(Map.transform);
+                        SpawnBurger(
+                            Spawn4Left,
+                            Spawn4Right
+                        );
                         break;
                 }
             }
+
+            beatDelay = 60f / BPM;
+            yield return new WaitForSeconds(beatDelay);
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    void SpawnBurger(GameObject leftSpawn, GameObject rightSpawn)
     {
+        GameObject leftBurger = Instantiate(
+            NormalBurger,
+            leftSpawn.transform.position,
+            quaternion.identity
+        );
 
+        leftBurger.transform.SetParent(Map.transform);
+
+        GameObject rightBurger = Instantiate(
+            NormalBurger,
+            rightSpawn.transform.position,
+            quaternion.identity
+        );
+
+        rightBurger.transform.SetParent(Map.transform);
     }
-}
 
+    public void ChangeBPM(float newBPM)
+    {
+        BPM = newBPM;
+
+        FallingNotes.OnBPMChanged?.Invoke(BPM);
+    }
+
+    public static event System.Action<float> OnBPMChanged;
+}

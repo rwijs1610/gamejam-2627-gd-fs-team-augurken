@@ -4,21 +4,48 @@ public class ScoreMover : MonoBehaviour
 {
     private Vector3 start;
     private Vector3 target;
+
     private float duration = 0.8f;
     private float elapsed;
+
     private float holdDuration = 0.5f;
-    private int phase = 0; // 0 = image boven bewegen, 1 = image vasthouden, 2 = image naar beneden bewegen
 
+    private int phase = 0;
 
-    public void Init(Vector3 targetPos, float durationSeconds, float offset, float holdSeconds = 0.5f)
+    public void Init(
+        Vector3 startPos,
+        Vector3 targetPos,
+        float durationSeconds,
+        float offset,
+        float holdSeconds = 0.5f)
     {
-        start = transform.position;
-        var random = new Vector3(Random.Range(-offset, offset), Random.Range(-offset, offset), 0f);
+        start = startPos;
+
+        Vector3 random =
+            new Vector3(
+                Random.Range(-offset, offset),
+                Random.Range(-offset, offset),
+                0f
+            );
+
         target = targetPos + random;
-        duration = Mathf.Max(0.01f, durationSeconds);
-        holdDuration = Mathf.Max(0f, holdSeconds);
+
+        duration =
+            Mathf.Max(
+                0.01f,
+                durationSeconds
+            );
+
+        holdDuration =
+            Mathf.Max(
+                0f,
+                holdSeconds
+            );
+
         elapsed = 0f;
         phase = 0;
+
+        transform.position = start;
     }
 
     void Update()
@@ -27,9 +54,24 @@ public class ScoreMover : MonoBehaviour
 
         if (phase == 0)
         {
-            float t = Mathf.Clamp01(elapsed / duration);
-            float s = Mathf.SmoothStep(0f, 1f, t);
-            transform.position = Vector3.Lerp(start, target, s);
+            float t =
+                Mathf.Clamp01(
+                    elapsed / duration
+                );
+
+            float s =
+                Mathf.SmoothStep(
+                    0f,
+                    1f,
+                    t
+                );
+
+            transform.position =
+                Vector3.Lerp(
+                    start,
+                    target,
+                    s
+                );
 
             if (t >= 1f)
             {
@@ -47,9 +89,24 @@ public class ScoreMover : MonoBehaviour
         }
         else
         {
-            float t = Mathf.Clamp01(elapsed / duration);
-            float s = Mathf.SmoothStep(0f, 1f, t);
-            transform.position = Vector3.Lerp(target, start, s);
+            float t =
+                Mathf.Clamp01(
+                    elapsed / duration
+                );
+
+            float s =
+                Mathf.SmoothStep(
+                    0f,
+                    1f,
+                    t
+                );
+
+            transform.position =
+                Vector3.Lerp(
+                    target,
+                    start,
+                    s
+                );
 
             if (t >= 1f)
             {
