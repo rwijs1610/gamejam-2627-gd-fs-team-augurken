@@ -4,10 +4,9 @@ After=multi-user.target
 
 [Service]
 Type=simple
-User=pi
-SupplementaryGroups=gpio input
-WorkingDirectory=/home/pi/gamejam-2627-gd-fs-team-augurken/Controller
-ExecStart=/usr/bin/python3 /home/pi/gamejam-2627-gd-fs-team-augurken/Controller/controller.py
+User=root
+WorkingDirectory=/home/pi/gamejam/Controller
+ExecStart=/usr/bin/python3 /home/pi/gamejam/Controller/controller.py
 Restart=always
 
 [Install]
