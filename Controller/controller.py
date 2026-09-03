@@ -1,5 +1,6 @@
 from evdev import UInput, ecodes
 from gpiozero import Button
+import logging
 from signal import pause
 
 controls = {
@@ -17,10 +18,20 @@ controls = {
 keyboard = UInput({ecodes.EV_KEY: list(controls.values())}, name="Arcade Controller")
 buttons = []
 
+logging.basicConfig(level=logging.INFO, format="%(message)s")
+
+def press(pin, key):
+    logging.info("GPIO %s pressed", pin)
+    keyboard.write(ecodes.EV_KEY, key, 1)
+
+def release(pin, key):
+    logging.info("GPIO %s released", pin)
+    keyboard.write(ecodes.EV_KEY, key, 0)
+
 for pin, key in controls.items():
     button = Button(pin, pull_up=True, bounce_time=0.03)
-    button.when_pressed = lambda key=key: keyboard.write(ecodes.EV_KEY, key, 1)
-    button.when_released = lambda key=key: keyboard.write(ecodes.EV_KEY, key, 0)
+    button.when_pressed = lambda pin=pin, key=key: press(pin, key)
+    button.when_released = lambda pin=pin, key=key: release(pin, key)
     buttons.append(button)
 
 try:
