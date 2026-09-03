@@ -7,12 +7,13 @@ controls = {
     2: ecodes.KEY_W,
     3: ecodes.KEY_S,
     4: ecodes.KEY_A,
-    27: ecodes.KEY_SPACE,
+    17: ecodes.KEY_D,
+    27: ecodes.KEY_1,
     14: ecodes.KEY_I,
     15: ecodes.KEY_K,
     18: ecodes.KEY_J,
     23: ecodes.KEY_L,
-    22: ecodes.KEY_ENTER,
+    22: ecodes.KEY_2,
 }
 
 keyboard = UInput({ecodes.EV_KEY: list(controls.values())}, name="Arcade Controller")
