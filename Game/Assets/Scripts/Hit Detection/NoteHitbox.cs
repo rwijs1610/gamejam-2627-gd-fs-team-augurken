@@ -5,13 +5,6 @@ public sealed class NoteHitbox : MonoBehaviour
 {
     public const string RequiredTag = "NoteHitbox";
 
-    [Header("Identity")]
-    [field: SerializeField]
-    public int PlayerId { get; private set; }
-
-    [field: SerializeField]
-    public int LaneId { get; private set; }
-
     public bool IsConsumed { get; private set; }
 
     private Collider2D _collider;
@@ -19,6 +12,14 @@ public sealed class NoteHitbox : MonoBehaviour
     private void Awake()
     {
         _collider = GetComponent<Collider2D>();
+
+        if (_collider == null)
+        {
+            Debug.LogError(
+                $"[NoteHitbox] Collider2D missing on '{name}'.",
+                this
+            );
+        }
 
         if (!CompareTag(RequiredTag))
         {
@@ -32,8 +33,6 @@ public sealed class NoteHitbox : MonoBehaviour
         Debug.Log(
             $"[NoteHitbox] Created | " +
             $"Name={name} | " +
-            $"Player={PlayerId} | " +
-            $"Lane={LaneId} | " +
             $"Position={transform.position}"
         );
     }

@@ -6,7 +6,7 @@ public sealed class PlayerLaneInput : MonoBehaviour
 {
     [Header("Player")]
     [SerializeField]
-    private int playerId;
+    private int playerId = 1;
 
     [Header("References")]
     [SerializeField]
@@ -22,16 +22,63 @@ public sealed class PlayerLaneInput : MonoBehaviour
 
     private Action<InputAction.CallbackContext>[] callbacks;
 
+    public int PlayerId => playerId;
+
     private void Awake()
     {
         callbacks =
             new Action<InputAction.CallbackContext>[4];
+
+        // Safety checks
+        if (laneHitboxes == null)
+        {
+            Debug.LogError(
+                $"[PlayerLaneInput] LaneHitboxes array is null | " +
+                $"Player={playerId}"
+            );
+
+            return;
+        }
+
+        if (laneActions == null)
+        {
+            Debug.LogError(
+                $"[PlayerLaneInput] LaneActions array is null | " +
+                $"Player={playerId}"
+            );
+
+            return;
+        }
+
+        if (laneHitboxes.Length != 4)
+        {
+            Debug.LogWarning(
+                $"[PlayerLaneInput] Expected 4 hitboxes, " +
+                $"but found {laneHitboxes.Length} | " +
+                $"Player={playerId}"
+            );
+        }
+
+        if (laneActions.Length != 4)
+        {
+            Debug.LogWarning(
+                $"[PlayerLaneInput] Expected 4 input actions, " +
+                $"but found {laneActions.Length} | " +
+                $"Player={playerId}"
+            );
+        }
     }
 
     private void OnEnable()
     {
+        if (laneActions == null)
+            return;
+
         for (int i = 0; i < 4; i++)
         {
+            if (i >= laneActions.Length)
+                continue;
+
             if (laneActions[i] == null)
                 continue;
 
@@ -47,14 +94,21 @@ public sealed class PlayerLaneInput : MonoBehaviour
         }
 
         Debug.Log(
-            $"[PlayerLaneInput] Enabled | Player={playerId}"
+            $"[PlayerLaneInput] Enabled | " +
+            $"Player={playerId}"
         );
     }
 
     private void OnDisable()
     {
+        if (laneActions == null)
+            return;
+
         for (int i = 0; i < 4; i++)
         {
+            if (i >= laneActions.Length)
+                continue;
+
             if (laneActions[i] == null)
                 continue;
 
@@ -66,6 +120,23 @@ public sealed class PlayerLaneInput : MonoBehaviour
 
             laneActions[i].action.Disable();
         }
+    }
+
+    public int GetLane(PlayerHitbox hitbox)
+    {
+        if (hitbox == null)
+            return -1;
+
+        if (laneHitboxes == null)
+            return -1;
+
+        for (int i = 0; i < laneHitboxes.Length; i++)
+        {
+            if (laneHitboxes[i] == hitbox)
+                return i;
+        }
+
+        return -1;
     }
 
     private void PressLane(int lane)
@@ -84,7 +155,28 @@ public sealed class PlayerLaneInput : MonoBehaviour
             return;
         }
 
-        if (laneHitboxes[lane] == null)
+        if (laneHitboxes == null)
+        {
+            Debug.LogError(
+                "[PlayerLaneInput] LaneHitboxes array is null."
+            );
+
+            return;
+        }
+
+        if (lane < 0 || lane >= laneHitboxes.Length)
+        {
+            Debug.LogError(
+                $"[PlayerLaneInput] Invalid lane {lane}."
+            );
+
+            return;
+        }
+
+        PlayerHitbox hitbox =
+            laneHitboxes[lane];
+
+        if (hitbox == null)
         {
             Debug.LogError(
                 $"[PlayerLaneInput] Lane {lane} " +
@@ -94,20 +186,12 @@ public sealed class PlayerLaneInput : MonoBehaviour
             return;
         }
 
-        PlayerHitbox hitbox =
-            laneHitboxes[lane];
-
-        if (hitbox.PlayerId != playerId)
-        {
-            Debug.LogError(
-                $"[PlayerLaneInput] Player mismatch! " +
-                $"Input Player={playerId}, " +
-                $"Hitbox Player={hitbox.PlayerId}"
-            );
-
-            return;
-        }
-
-        hitGameplay.TryHit(hitbox);
+        // Pass player and lane directly.
+        // No hierarchy lookup is needed.
+        hitGameplay.TryHit(
+            hitbox,
+            playerId,
+            lane
+        );
     }
 }

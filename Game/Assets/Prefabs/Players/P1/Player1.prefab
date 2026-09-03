@@ -28,9 +28,9 @@ Transform:
   m_GameObject: {fileID: 2472954888454322556}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalPosition: {x: 2.05, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 47051715028856522}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -78,7 +78,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.9, y: 0.9}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &1403885523987993595
 MonoBehaviour:
@@ -92,8 +92,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cf5ef1bf6355a2408cc937b96478b44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHitbox
-  <PlayerId>k__BackingField: 0
-  <LaneId>k__BackingField: 2
   rayCount: 32
   rayDirection: {x: 1, y: 0}
   rayPadding: 0.01
@@ -166,6 +164,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 47051715028856522}
+  - component: {fileID: 808382882781064492}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Untagged
@@ -183,7 +182,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5764994472639202137}
@@ -192,6 +191,19 @@ Transform:
   - {fileID: 1281955012698903577}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &808382882781064492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3214618662346366358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e95bc7f20f91e734ba83adc537f8eb9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player
+  playerId: 1
 --- !u!1 &5526578649159535014
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,9 +232,9 @@ Transform:
   m_GameObject: {fileID: 5526578649159535014}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 0, z: 0}
+  m_LocalPosition: {x: 3.559, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 47051715028856522}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -270,7 +282,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.9, y: 0.9}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &8926986429927884389
 MonoBehaviour:
@@ -284,8 +296,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cf5ef1bf6355a2408cc937b96478b44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHitbox
-  <PlayerId>k__BackingField: 0
-  <LaneId>k__BackingField: 3
   rayCount: 32
   rayDirection: {x: 1, y: 0}
   rayPadding: 0.01
@@ -379,7 +389,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 47051715028856522}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -427,7 +437,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.9, y: 0.9}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &830855203004930693
 MonoBehaviour:
@@ -441,8 +451,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cf5ef1bf6355a2408cc937b96478b44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHitbox
-  <PlayerId>k__BackingField: 0
-  <LaneId>k__BackingField: 0
   rayCount: 32
   rayDirection: {x: 1, y: 0}
   rayPadding: 0.01
@@ -534,9 +542,9 @@ Transform:
   m_GameObject: {fileID: 7547936733780469527}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.54, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 47051715028856522}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -584,7 +592,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.9, y: 0.9}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &5756573380668450816
 MonoBehaviour:
@@ -598,8 +606,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cf5ef1bf6355a2408cc937b96478b44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHitbox
-  <PlayerId>k__BackingField: 0
-  <LaneId>k__BackingField: 1
   rayCount: 32
   rayDirection: {x: 1, y: 0}
   rayPadding: 0.01

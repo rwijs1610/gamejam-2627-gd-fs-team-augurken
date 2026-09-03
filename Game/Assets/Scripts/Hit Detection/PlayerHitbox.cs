@@ -3,13 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public sealed class PlayerHitbox : MonoBehaviour
 {
-    [Header("Identity")]
-    [field: SerializeField]
-    public int PlayerId { get; private set; }
-
-    [field: SerializeField]
-    public int LaneId { get; private set; }
-
     [Header("Ray Sampling")]
     [SerializeField]
     [Min(1)]
@@ -45,11 +38,20 @@ public sealed class PlayerHitbox : MonoBehaviour
     {
         _collider = GetComponent<BoxCollider2D>();
 
+        if (_collider == null)
+        {
+            Debug.LogError(
+                $"[PlayerHitbox] BoxCollider2D missing | " +
+                $"Object={name}",
+                this
+            );
+
+            return;
+        }
+
         Debug.Log(
             $"[PlayerHitbox] Initialized | " +
             $"Object={name} | " +
-            $"Player={PlayerId} | " +
-            $"Lane={LaneId} | " +
             $"Rays={rayCount} | " +
             $"Direction={RayDirection}"
         );
@@ -57,10 +59,19 @@ public sealed class PlayerHitbox : MonoBehaviour
 
     public Ray GetRay(int index)
     {
+        if (_collider == null)
+        {
+            throw new System.InvalidOperationException(
+                $"[PlayerHitbox] Collider is missing on '{name}'."
+            );
+        }
+
         if (index < 0 || index >= rayCount)
+        {
             throw new System.ArgumentOutOfRangeException(
                 nameof(index)
             );
+        }
 
         Bounds bounds = _collider.bounds;
 
@@ -113,6 +124,9 @@ public sealed class PlayerHitbox : MonoBehaviour
 
     public float GetRayDistance()
     {
+        if (_collider == null)
+            return 0f;
+
         Bounds bounds = _collider.bounds;
 
         Vector2 direction = RayDirection;
