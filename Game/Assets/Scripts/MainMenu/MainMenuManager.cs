@@ -1,11 +1,25 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] private Image transitioner;
+    [SerializeField] private InputActionAsset Input;
+    private InputActionMap map;
+    private InputAction start;
+
+    void OnEnable() { map.Enable(); }
+    void OnDisable() { map.Disable(); }
+    
+    void Awake()
+    {
+        map = Input.FindActionMap("Game");
+        start = map.FindAction("start");
+    }
+
     void Start()
     {
         Time.timeScale = 1f;
@@ -17,7 +31,10 @@ public class MainMenuManager : MonoBehaviour
 
     void Update()
     {
-        
+        if(start.WasPressedThisFrame())
+        {
+            LoadGame();
+        }
     }
 
     private void Set(bool status)

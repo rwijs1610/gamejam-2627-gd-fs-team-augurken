@@ -3,7 +3,7 @@
     "name": "Gameplay",
     "maps": [
         {
-            "name": "New action map",
+            "name": "Game",
             "id": "0e4aee53-f3de-4aa0-bf54-169f33fc7c6c",
             "actions": [
                 {
@@ -73,6 +73,15 @@
                     "name": "P2_lane3",
                     "type": "Button",
                     "id": "3572917b-1ba4-464b-90b8-ff3eb0a822b2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "start",
+                    "type": "Button",
+                    "id": "94109463-a9b3-4216-bae1-350b3e8051bd",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -165,6 +174,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "P2_lane3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9e48d932-22d0-4acd-bc29-6215994d3fd8",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "start",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
