@@ -9,10 +9,10 @@ controls = {
     27: ecodes.KEY_A,
     22: ecodes.KEY_D,
     4: ecodes.KEY_1,
-    14: ecodes.KEY_I,
-    15: ecodes.KEY_K,
-    18: ecodes.KEY_J,
-    23: ecodes.KEY_L,
+    14: ecodes.KEY_C,
+    15: ecodes.KEY_R,
+    18: ecodes.KEY_SHIFT,
+    23: ecodes.KEY_SPACE,
     17: ecodes.KEY_D,
 }
 
