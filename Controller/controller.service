@@ -1,0 +1,14 @@
+[Unit]
+Description=Arcade Controller Keyboard Input
+After=multi-user.target
+
+[Service]
+Type=simple
+User=pi
+SupplementaryGroups=gpio input
+WorkingDirectory=/home/pi/gamejam-2627-gd-fs-team-augurken/Controller
+ExecStart=/usr/bin/python3 /home/pi/gamejam-2627-gd-fs-team-augurken/Controller/controller.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
