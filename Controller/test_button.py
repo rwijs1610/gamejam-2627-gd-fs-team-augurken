@@ -1,17 +1,10 @@
-import board
-import digitalio
-import time
+from gpiozero import Button
 
-button = digitalio.DigitalInOut(board.GP3)
-button.switch_to_input(pull=digitalio.Pull.UP)
+button = Button(3, pull_up=True)
 
-was_pressed = False
+print("Ready. Press the button connected between GPIO 3 and GND.")
 
 while True:
-    pressed = not button.value  
-
-    if pressed and not was_pressed:
-        print("click!")
-
-    was_pressed = pressed
-    time.sleep(0.01)
+    button.wait_for_press()
+    print("Button clicked!")
+    button.wait_for_release()
