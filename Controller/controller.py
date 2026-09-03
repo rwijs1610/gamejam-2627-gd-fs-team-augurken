@@ -24,10 +24,12 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 def press(pin, key):
     logging.info("GPIO %s pressed", pin)
     keyboard.write(ecodes.EV_KEY, key, 1)
+    keyboard.syn()
 
 def release(pin, key):
     logging.info("GPIO %s released", pin)
     keyboard.write(ecodes.EV_KEY, key, 0)
+    keyboard.syn()
 
 for pin, key in controls.items():
     button = Button(pin, pull_up=True, bounce_time=0.03)
