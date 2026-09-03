@@ -23,4 +23,9 @@ for pin, key in controls.items():
     button.when_released = lambda key=key: keyboard.write(ecodes.EV_KEY, key, 0)
     buttons.append(button)
 
-pause()
+try:
+    pause()
+except KeyboardInterrupt:
+    pass
+finally:
+    keyboard.close()
