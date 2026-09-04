@@ -3,15 +3,32 @@ using UnityEngine;
 public class NormalBurger : MonoBehaviour
 {
     [SerializeField] float downForce = 0.01f;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    void OnEnable()
     {
-        
+        FallingNotes.OnBPMChanged += ChangeSpeed;
     }
 
-    // Update is called once per frame
+    void OnDisable()
+    {
+        FallingNotes.OnBPMChanged -= ChangeSpeed;
+    }
+
+    void Start()
+    {
+    }
+
     void Update()
     {
-        gameObject.transform.Translate(0f,downForce*Time.deltaTime,0f);
+        gameObject.transform.Translate(
+            0f,
+            downForce * Time.deltaTime,
+            0f
+        );
+    }
+
+    void ChangeSpeed(float bpm)
+    {
+        downForce = bpm / 60f;
     }
 }

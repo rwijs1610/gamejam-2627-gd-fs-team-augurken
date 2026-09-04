@@ -1,0 +1,35 @@
+{
+    "version": 1,
+    "name": "Testing",
+    "maps": [
+        {
+            "name": "Leftleft",
+            "id": "b37b332a-f6ae-4d46-b131-bb1c828ac0e6",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "b39d79bd-3cb5-435b-a909-ab1725007335",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "fa9293f9-b860-474a-956c-e07c86a0483b",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
