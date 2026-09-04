@@ -3,7 +3,7 @@ De controller word 1 gamepad met 10 knoppen totaal. </br>
 4 knoppen per speler, 2 start knoppen per speler. 
 
 ## Onderdelen:
-1x Raspberry Pi Pico (Waarschijnlijk) </br>
+1x Raspberry Pi Pico 5 </br>
 8x Arcade knop; 4 per speler </br>
 2x Arcade knop om te starten </br>
 1x USB kabel </br>
