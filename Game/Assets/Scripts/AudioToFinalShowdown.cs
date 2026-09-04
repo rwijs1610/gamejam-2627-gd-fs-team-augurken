@@ -13,6 +13,11 @@ public class AudioToFinalShowdown : MonoBehaviour
     [Header("Scene")]
     [SerializeField] private string finalShowdownSceneName;
 
+    [Header("Player Won")]
+    [SerializeField] GameObject EndPanel;
+    [SerializeField] GameObject player1won;
+    [SerializeField] GameObject player2won;
+
     private bool hasFinished = false;
 
     private void Awake()
@@ -21,6 +26,12 @@ public class AudioToFinalShowdown : MonoBehaviour
         {
             audioSource = GetComponent<AudioSource>();
         }
+    }
+    private void Start()
+    {
+        EndPanel.SetActive(false);
+        player2won.SetActive(false);
+        player2won.SetActive(false);
     }
 
     private void Update()
@@ -79,7 +90,21 @@ public class AudioToFinalShowdown : MonoBehaviour
             player1Score,
             player2Score
         );
-
-        SceneManager.LoadScene(finalShowdownSceneName);
+        if (player1Score > player2Score)
+        {
+            EndPanel.SetActive(true);
+            player1won.SetActive(true);
+            player2won.SetActive(false);
+            Time.timeScale = 0f;
+        }
+        if (player1Score < player2Score)
+        {
+            EndPanel.SetActive(true);
+            player2won.SetActive(true);
+            player1won.SetActive(false);
+            Time.timeScale = 0f;
+        }
+        //SceneManager.LoadScene(finalShowdownSceneName);
+        //SceneManager.LoadScene("MainMenu");
     }
 }
