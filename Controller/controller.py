@@ -4,14 +4,14 @@ import logging
 from signal import pause
 
 controls = {
-    27: ecodes.KEY_A,
-    22: ecodes.KEY_D,
-    2: ecodes.KEY_W,
-    3: ecodes.KEY_S,
+    27: ecodes.KEY_W,
+    22: ecodes.KEY_A,
+    2: ecodes.KEY_S,
+    3: ecodes.KEY_D,
 
-    18: ecodes.KEY_I,
+    18: ecodes.KEY_J,
     15: ecodes.KEY_K,
-    23: ecodes.KEY_J,
+    23: ecodes.KEY_I,
     14: ecodes.KEY_L,
 }
 
