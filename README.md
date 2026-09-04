@@ -2,7 +2,7 @@
 
 Nickdev8 = Nick Esselman </br>
 BramG08 = Bram Grippeling </br>
-GoldyMAsterdam = Tycho Boom </br>
+Tycho </br>
 Jesper826 = Jesper Niekerk </br>
 JosHub112 = Joshua Visser </br>
 MoKharbo = Mo Kharboutli </br>
