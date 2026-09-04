@@ -2,7 +2,6 @@ using UnityEngine;
 using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine.Tilemaps;
-using UnityEditor.Tilemaps;
 using System.Collections;
 
 public class FallingNotes : MonoBehaviour
