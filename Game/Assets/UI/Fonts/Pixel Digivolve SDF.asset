@@ -32,7 +32,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _FaceTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: dad892deb2c2a2648ab16c1b22382c74, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -194,6 +194,8 @@ MonoBehaviour:
       m_LigatureGlyphID: 125
     - m_ComponentGlyphIDs: 14000000d800000017000000
       m_LigatureGlyphID: 124
+    - m_ComponentGlyphIDs: 16000000d800000017000000
+      m_LigatureGlyphID: 126
     m_GlyphPairAdjustmentRecords: []
     m_MarkToBaseAdjustmentRecords: []
     m_MarkToMarkAdjustmentRecords: []
