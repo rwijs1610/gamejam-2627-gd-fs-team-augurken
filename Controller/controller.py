@@ -10,8 +10,8 @@ controls = {
     3: ecodes.KEY_D,
 
     18: ecodes.KEY_J,
-    15: ecodes.KEY_K,
-    23: ecodes.KEY_I,
+    15: ecodes.KEY_I,
+    23: ecodes.KEY_K,
     14: ecodes.KEY_L,
 }
 
