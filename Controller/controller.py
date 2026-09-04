@@ -4,17 +4,29 @@ import logging
 from signal import pause
 
 controls = {
-    2: ecodes.KEY_W,
-    3: ecodes.KEY_S,
     27: ecodes.KEY_A,
     22: ecodes.KEY_D,
-    4: ecodes.KEY_1,
-    17: ecodes.KEY_D,
-    14: ecodes.KEY_C,
-    15: ecodes.KEY_R,
-    18: ecodes.KEY_LEFTSHIFT,
-    23: ecodes.KEY_SPACE,
+    2: ecodes.KEY_W,
+    3: ecodes.KEY_S,
+
+    18: ecodes.KEY_I,
+    15: ecodes.KEY_K,
+    23: ecodes.KEY_J,
+    14: ecodes.KEY_L,
 }
+
+# controls = {
+#     2: ecodes.KEY_W,
+#     3: ecodes.KEY_S,
+#     27: ecodes.KEY_A,
+#     22: ecodes.KEY_D,
+#     4: ecodes.KEY_1,
+#     17: ecodes.KEY_D,
+#     14: ecodes.KEY_C,
+#     15: ecodes.KEY_R,
+#     18: ecodes.KEY_LEFTSHIFT,
+#     23: ecodes.KEY_SPACE,
+# }
 
 keyboard = UInput({ecodes.EV_KEY: list(controls.values())}, name="Arcade Controller")
 buttons = []
